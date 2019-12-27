@@ -30,8 +30,19 @@ dependencies {
     def timber_version = "4.7.1";
     implementation "com.jakewharton.timber:timber:$timber_version"
 
+
+    implementation 'com.github.markushi:circlebutton:1.1'
+
     //implementation 'com.jakewharton:butterknife:8.8.1'
     //annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+
+    def design_version = "27.1.1"
+    implementation "com.android.support:design:$design_version"
+
+    def material_version = "1.0.0"
+    implementation "com.google.android.material:material:$material_version"
+
 
 
     // -------- Retrofit
