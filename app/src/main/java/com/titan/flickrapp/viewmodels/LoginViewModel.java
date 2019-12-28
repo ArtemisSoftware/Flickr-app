@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.titan.flickrapp.repository.FlickrRepository;
+import com.titan.flickrapp.requests.responses.CheckApiResponse;
 import com.titan.flickrapp.requests.responses.UserSearchResponse;
 import com.titan.flickrapp.util.ApiResponse;
 
@@ -53,15 +54,15 @@ public class LoginViewModel extends ViewModel {
                             public void accept(UserSearchResponse response) throws Exception {
 
                                 Timber.e("accept: " + response.toString());
-                                loginLiveData.setValue(ApiResponse.success(response));
+                                loginLiveData.setValue(CheckApiResponse.validate(response));
                             }
                         },
 
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                Timber.e("Error on serch user: " + throwable.getMessage());
 
+                                Timber.e("Error on serch user: " + throwable.getMessage());
                                 loginLiveData.setValue(ApiResponse.error(throwable.getMessage()));
                             }
                         }
