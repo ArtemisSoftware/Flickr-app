@@ -18,6 +18,6 @@ public interface FlickrApi {
     Observable<PhotoListResponse> searchPhotoList(@Query("method") String method, @Query("user_id") String nsid, @Query("page") String page);
 
     @GET("rest/?")
-    Observable<PhotoResponse> searchPhoto(@Query("method") String method, @Query("user_id") String nsid, @Query("page") String page);
+    Observable<PhotoResponse> searchPhoto(@Query("method") String method, @Query("photo_id") String photoId);
 
 }
