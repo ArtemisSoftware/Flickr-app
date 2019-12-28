@@ -1,6 +1,8 @@
 package com.titan.flickrapp.repository;
 
 import com.titan.flickrapp.requests.FlickrApi;
+import com.titan.flickrapp.requests.responses.PhotoListResponse;
+import com.titan.flickrapp.requests.responses.PhotoResponse;
 import com.titan.flickrapp.requests.responses.UserSearchResponse;
 import com.titan.flickrapp.util.ApiConstants;
 
@@ -17,6 +19,15 @@ public class FlickrRepository {
 
     public Observable<UserSearchResponse> searchUser(String userName) {
         return api.searchUser(ApiConstants.USER_METHOD, userName);
+    }
+
+
+    public Observable<PhotoListResponse> searchPhotoList(String nsid, String page) {
+        return api.searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, nsid,page);
+    }
+
+    public Observable<PhotoResponse> searchPhoto(String photoId) {
+        return api.searchPhoto(ApiConstants.PHOTO_INFO_METHOD, photoId);
     }
 
 }

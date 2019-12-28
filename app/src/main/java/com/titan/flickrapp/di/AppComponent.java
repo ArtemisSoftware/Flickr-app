@@ -1,5 +1,6 @@
 package com.titan.flickrapp.di;
 
+import com.titan.flickrapp.ui.gallery.GalleryActivity;
 import com.titan.flickrapp.ui.login.LoginActivity;
 
 import javax.inject.Singleton;
@@ -11,4 +12,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void doInjection(LoginActivity loginActivity);
+
+    void doInjection(GalleryActivity galleryActivity);
 }

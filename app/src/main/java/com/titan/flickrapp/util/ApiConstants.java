@@ -8,8 +8,11 @@ public class ApiConstants {
 
 
     public static final String USER_METHOD = "flickr.people.findByUsername";
+    public static final String PUBLIC_PHOTOS_METHOD = "flickr.people.getPublicPhotos";
+    public static final String PHOTO_INFO_METHOD = "flickr.photos.getInfo";
 
 
     public static final String FORMAT = "json";
     public static final String NO_JSON_CALLBACK = "?";
+    public static final String PER_PAGE = "7";
 }
