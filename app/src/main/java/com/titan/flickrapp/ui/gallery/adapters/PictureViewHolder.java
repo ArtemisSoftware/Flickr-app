@@ -29,7 +29,7 @@ public class PictureViewHolder extends RecyclerView.ViewHolder{
 
     public void onBind(Picture picture){
 
-        // set the image
+        // set the image for the future
 
         txt_title.setText(picture.getTitle());
         txt_picture_id.setText(picture.getId());
