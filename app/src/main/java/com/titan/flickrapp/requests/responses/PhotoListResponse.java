@@ -6,13 +6,26 @@ import java.util.List;
 
 public class PhotoListResponse extends BaseResponse{
 
-    @SerializedName("page")
-    public int page;
+    @SerializedName("photos")
+    public Photos photos;
 
-    @SerializedName("pages")
-    public int pages;
+    public class Photos {
 
-    @SerializedName("photo")
-    public List<PhotoResponse> photos;
+        @SerializedName("page")
+        public int page;
+
+        @SerializedName("pages")
+        public int pages;
+
+        @SerializedName("photo")
+        public List<Photo> photos;
+    }
+
+
+    public class Photo {
+
+        @SerializedName("id")
+        public String id;
+    }
 
 }

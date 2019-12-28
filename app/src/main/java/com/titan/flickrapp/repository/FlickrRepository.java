@@ -23,11 +23,11 @@ public class FlickrRepository {
 
 
     public Observable<PhotoListResponse> searchPhotoList(String nsid, String page) {
-        return api.searchPhotoList(ApiConstants.USER_METHOD, nsid,page);
+        return api.searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, nsid,page);
     }
 
     public Observable<PhotoResponse> searchPhoto(String photoId) {
-        return api.searchPhoto(ApiConstants.USER_METHOD, photoId);
+        return api.searchPhoto(ApiConstants.PHOTO_INFO_METHOD, photoId);
     }
 
 }

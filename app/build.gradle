@@ -51,7 +51,6 @@ dependencies {
     implementation "com.google.android.material:material:$material_version"
 
 
-
     // -------- Retrofit
     def retrofit_version = "2.6.2";
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.titan.flickrapp.repository.FlickrRepository;
+import com.titan.flickrapp.ui.gallery.GalleryActivity;
+import com.titan.flickrapp.viewmodels.GalleryViewModel;
 import com.titan.flickrapp.viewmodels.LoginViewModel;
 
 import javax.inject.Inject;
@@ -32,7 +34,13 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(repository);
         }
 
-        Timber.d("ViewModel IllegalArgumentException");
+        if (modelClass.isAssignableFrom(GalleryViewModel.class)) {
+
+            Timber.d("GalleryViewModel found...");
+            return (T) new GalleryViewModel(repository);
+        }
+
+        Timber.d("ViewModel Unknown class name");
 
         throw new IllegalArgumentException("Unknown class name");
     }
