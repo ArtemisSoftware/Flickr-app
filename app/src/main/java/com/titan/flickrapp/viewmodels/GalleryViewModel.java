@@ -3,16 +3,17 @@ package com.titan.flickrapp.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.repository.FlickrRepository;
 import com.titan.flickrapp.requests.responses.CheckApiResponse;
 import com.titan.flickrapp.requests.responses.PhotoListResponse;
+import com.titan.flickrapp.requests.responses.PhotoResponse;
 import com.titan.flickrapp.util.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-import io.reactivex.ObservableSource;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -43,34 +44,90 @@ public class GalleryViewModel extends ViewModel {
 
         Timber.d("Searching user " + nsid + " page " + page + " list of pictures");
 
+
         repository.searchPhotoList(nsid, page)
+                .map(new Function<PhotoListResponse, List<String>>() {
+                    @Override
+                    public List<String> apply(PhotoListResponse response) throws Exception {
+
+                        List<String> photoIds = new ArrayList<>();
+
+                        for (PhotoListResponse.Photo photo : response.photos.pictures) {
+                            photoIds.add(photo.id);
+                        }
+
+                        return photoIds; // B.
+                    }
+                })
+                .flatMap(new Function<List<String>, Observable<List<Picture>>>() {
+                    @Override
+                    public Observable<List<Picture>> apply(List<String> photoIds) throws Exception {
+                        return getPicturesObservable(photoIds);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PhotoListResponse>() {
+                .subscribeWith(new Observer<List<Picture>>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
+                    public void onSubscribe(Disposable disposable) {
+                        disposables.add(disposable);
+                        galleryLiveData.setValue(ApiResponse.loading());
                     }
 
                     @Override
-                    public void onNext(PhotoListResponse photoListResponse) {
+                    public void onNext(List<Picture> pictures) {
 
-                        galleryLiveData.setValue(CheckApiResponse.validate(photoListResponse));
+                        Timber.d("onNext: " + pictures.toString());
+                        galleryLiveData.setValue(ApiResponse.success(pictures));
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
 
+                        Timber.e("Error on serch user: " + throwable.getMessage());
                         galleryLiveData.setValue(ApiResponse.error(throwable.getMessage()));
                     }
 
                     @Override
                     public void onComplete() {
-
+                        disposables.clear();
                     }
                 });
+
     }
 
+
+    private Observable<List<Picture>> getPicturesObservable(List<String> photoIds){
+
+        List<Observable<PhotoResponse>> requests = new ArrayList<>();
+
+        for(String id : photoIds) {
+            requests.add(repository.searchPhoto(id));
+        }
+
+        Observable<List<Picture>> observable = Observable.zip(
+                requests,
+                new Function<Object[], List<Picture>>() {
+                    @Override
+                    public List<Picture> apply(Object[] photos) throws Exception {
+
+                        Timber.d("apply photo response: " + photos);
+
+                        List<Picture> pictures = new ArrayList<>();
+
+                        //for (PhotoResponse photo : photos) {
+
+                        for (int i = 0; i < photos.length; ++i) {
+
+                            PhotoResponse photo = ((PhotoResponse) photos[i]);
+                            pictures.add(new Picture(photo.photo.id, photo.photo.title.description, photo.photo.urls.links.get(0).content));
+                        }
+                        return pictures;
+                    }
+                });
+
+        return observable;
+    }
 
     @Override
     protected void onCleared() {

@@ -6,27 +6,35 @@ import java.util.List;
 
 public class PhotoResponse extends BaseResponse{
 
-    @SerializedName("id")
-    public String id;
+    @SerializedName("photo")
+    public PhotoInfo photo;
 
-    @SerializedName("title")
-    public Title title;
 
-    @SerializedName("urls")
-    public Urls urls;
+    public class PhotoInfo{
+
+        @SerializedName("id")
+        public String id;
+
+        @SerializedName("title")
+        public Title title;
+
+        @SerializedName("urls")
+        public Urls urls;
+
+    }
 
 
     public class Title {
 
         @SerializedName("_content")
-        public String content;
+        public String description;
     }
 
 
     public class Urls {
 
         @SerializedName("url")
-        public List<Url> urls;
+        public List<Url> links;
 
     }
 

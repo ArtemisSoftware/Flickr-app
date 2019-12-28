@@ -18,7 +18,7 @@ public class PhotoListResponse extends BaseResponse{
         public int pages;
 
         @SerializedName("photo")
-        public List<Photo> photos;
+        public List<Photo> pictures;
     }
 
 
