@@ -3,7 +3,7 @@ package com.titan.flickrapp.requests.responses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserSearchResponse {
+public class UserSearchResponse extends BaseResponse {
 
     @SerializedName("user")
     @Expose()
@@ -17,7 +17,7 @@ public class UserSearchResponse {
     @Override
     public String toString() {
         return "UserSearchResponse{" +
-                "user=" + user.toString() +
+                "user=" + user +
                 '}';
     }
 
