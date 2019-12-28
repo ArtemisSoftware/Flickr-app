@@ -1,5 +1,6 @@
 package com.titan.flickrapp.models;
 
+
 public class Picture {
 
     private String id;
@@ -23,4 +24,5 @@ public class Picture {
     public String getUrl() {
         return url;
     }
+
 }
