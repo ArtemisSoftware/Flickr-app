@@ -43,8 +43,6 @@ public class GalleryActivity extends BaseActivity {
     private String nsid;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +57,11 @@ public class GalleryActivity extends BaseActivity {
         initRecyclerView();
 
         getIncomingIntent();
-        galleryViewModel.searchGallery(nsid, "1");
+        galleryViewModel.searchGallery(nsid);
     }
 
 
     private void initRecyclerView(){
-
 
         pictureRecyclerAdapter = new PictureRecyclerAdapter();
         recyclerView.setAdapter(pictureRecyclerAdapter);

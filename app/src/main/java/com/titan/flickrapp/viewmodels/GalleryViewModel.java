@@ -27,11 +27,13 @@ public class GalleryViewModel extends ViewModel {
     private FlickrRepository repository;
     private final CompositeDisposable disposables;
     private final MutableLiveData<ApiResponse> galleryLiveData;
+    private int pageNumber;
 
     public GalleryViewModel(FlickrRepository repository) {
         this.repository = repository;
         this.disposables = new CompositeDisposable();
         galleryLiveData = new MutableLiveData<>();
+        pageNumber = 1;
     }
 
 
@@ -40,12 +42,12 @@ public class GalleryViewModel extends ViewModel {
     }
 
 
-    public void searchGallery(String nsid, String page) {
+    public void searchGallery(String nsid) {
 
-        Timber.d("Searching user " + nsid + " page " + page + " list of pictures");
+        Timber.d("Searching user " + nsid + " page " + pageNumber + " list of pictures");
 
 
-        repository.searchPhotoList(nsid, page)
+        repository.searchPhotoList(nsid, String.valueOf(pageNumber))
                 .map(new Function<PhotoListResponse, List<String>>() {
                     @Override
                     public List<String> apply(PhotoListResponse response) throws Exception {
