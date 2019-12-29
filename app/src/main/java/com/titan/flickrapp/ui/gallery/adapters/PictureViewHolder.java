@@ -17,9 +17,6 @@ public class PictureViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.txt_title)
     TextView txt_title;
 
-    @BindView(R.id.txt_picture_id)
-    TextView txt_picture_id;
-
 
     public PictureViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -32,7 +29,6 @@ public class PictureViewHolder extends RecyclerView.ViewHolder{
         // set the image for the future
 
         txt_title.setText(picture.getTitle());
-        txt_picture_id.setText(picture.getId());
 
     }
 
