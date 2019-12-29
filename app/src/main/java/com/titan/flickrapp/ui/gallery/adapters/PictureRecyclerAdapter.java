@@ -19,6 +19,13 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private List<Picture> results;
 
+    private OnPictureListener onPictureListener;
+
+
+    public PictureRecyclerAdapter(OnPictureListener onPictureListener) {
+        this.onPictureListener = onPictureListener;
+
+    }
 
     @NonNull
     @Override
@@ -30,7 +37,7 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             default:{
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture_list_item, parent, false);
-                return new PictureViewHolder(view);
+                return new PictureViewHolder(view, this.onPictureListener);
             }
         }
     }
@@ -60,6 +67,16 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         return 0;
+    }
+
+
+    public Picture getSelectedPicture(int position){
+        if(this.results != null){
+            if(this.results.size() > 0){
+                return this.results.get(position);
+            }
+        }
+        return null;
     }
 
 

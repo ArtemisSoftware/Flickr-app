@@ -12,16 +12,20 @@ import com.titan.flickrapp.models.Picture;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PictureViewHolder extends RecyclerView.ViewHolder{
+public class PictureViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     @BindView(R.id.txt_title)
     TextView txt_title;
 
 
-    public PictureViewHolder(@NonNull View itemView) {
+    private OnPictureListener onPictureListener;
+
+    public PictureViewHolder(@NonNull View itemView, OnPictureListener onPictureListener) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
+        this.onPictureListener = onPictureListener;
+        itemView.setOnClickListener(this);
     }
 
     public void onBind(Picture picture){
@@ -32,4 +36,8 @@ public class PictureViewHolder extends RecyclerView.ViewHolder{
 
     }
 
+    @Override
+    public void onClick(View v) {
+        onPictureListener.onPictureClick(getAdapterPosition());
+    }
 }
