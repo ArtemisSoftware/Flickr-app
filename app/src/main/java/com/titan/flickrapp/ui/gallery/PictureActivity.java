@@ -1,11 +1,9 @@
 package com.titan.flickrapp.ui.gallery;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.ui.BaseActivity;
@@ -19,13 +17,23 @@ public class PictureActivity extends BaseActivity {
     @BindView(R.id.txt_title)
     TextView txt_title;
 
+    @BindView(R.id.txt_description)
+    TextView txt_description;
+
+    @BindView(R.id.txt_date)
+    TextView txt_date;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
 
         Timber.d("Picture");
+        showProgressBar(true);
         getIncomingIntent();
+        showProgressBar(false);
     }
 
     private void getIncomingIntent(){
@@ -40,6 +48,8 @@ public class PictureActivity extends BaseActivity {
         if(picture != null){
 
             txt_title.setText(picture.getTitle());
+            txt_description.setText(picture.getDescription());
+            txt_date.setText(picture.getDate());
 
         }
     }

@@ -4,38 +4,60 @@ package com.titan.flickrapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.titan.flickrapp.requests.responses.PhotoResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Picture implements Parcelable {
 
     private String id;
     private String title;
+    private String description;
+    private List<String> tags;
     private String url;
+    private String date;
 
-    public Picture(String id, String title, String url) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
+    public Picture(PhotoResponse photo) {
+
+        this.id = photo.photo.id;
+        this.title = photo.photo.title.description;
+        this.description = photo.photo.description.description;
+        this.url = photo.photo.urls.links.get(0).content;
+        this.date = photo.photo.dates.taken;
+
+        this.tags = new ArrayList<>();
+
+        for (PhotoResponse.Tag tag: photo.photo.tags.tag) {
+            tags.add(tag.description);
+        }
+
     }
+
 
     protected Picture(Parcel in) {
         id = in.readString();
         title = in.readString();
+        description = in.readString();
+        tags = in.createStringArrayList();
         url = in.readString();
+        date = in.readString();
     }
 
-
-
-    public String getId() {
-        return id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeStringList(tags);
+        dest.writeString(url);
+        dest.writeString(date);
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public int describeContents() {
+        return 0;
     }
-
-    public String getUrl() {
-        return url;
-    }
-
 
     public static final Creator<Picture> CREATOR = new Creator<Picture>() {
         @Override
@@ -49,16 +71,27 @@ public class Picture implements Parcelable {
         }
     };
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(title);
-        dest.writeString(url);
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

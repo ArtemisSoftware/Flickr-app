@@ -122,7 +122,7 @@ public class GalleryViewModel extends ViewModel {
                         for (int i = 0; i < photos.length; ++i) {
 
                             PhotoResponse photo = ((PhotoResponse) photos[i]);
-                            pictures.add(new Picture(photo.photo.id, photo.photo.title.description, photo.photo.urls.links.get(0).content));
+                            pictures.add(new Picture(photo));
                         }
                         return pictures;
                     }
