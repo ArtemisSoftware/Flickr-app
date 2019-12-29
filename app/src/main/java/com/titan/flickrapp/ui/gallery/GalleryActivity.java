@@ -48,7 +48,7 @@ public class GalleryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        Timber.d("Gallery app");
+        Timber.d("Gallery");
 
         ((App) getApplication()).getAppComponent().doInjection(this);
 
