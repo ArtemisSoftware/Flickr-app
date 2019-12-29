@@ -1,5 +1,7 @@
 package com.titan.flickrapp.requests.responses;
 
+import android.nfc.Tag;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -18,8 +20,17 @@ public class PhotoResponse extends BaseResponse{
         @SerializedName("title")
         public Title title;
 
+        @SerializedName("description")
+        public Description description;
+
         @SerializedName("urls")
         public Urls urls;
+
+        @SerializedName("dates")
+        public Dates dates;
+
+        @SerializedName("tags")
+        public Tags tags;
 
     }
 
@@ -28,6 +39,22 @@ public class PhotoResponse extends BaseResponse{
 
         @SerializedName("_content")
         public String description;
+    }
+
+    public class Description {
+
+        @SerializedName("_content")
+        public String description;
+    }
+
+
+    public class Dates {
+
+        @SerializedName("posted")
+        public long posted;
+
+        @SerializedName("taken")
+        public String taken;
     }
 
 
@@ -47,5 +74,19 @@ public class PhotoResponse extends BaseResponse{
         @SerializedName("_content")
         public String content;
 
+    }
+
+
+    public class Tags {
+
+        @SerializedName("tag")
+        public List<Tag> tag;
+
+    }
+
+    public class Tag {
+
+        @SerializedName("raw")
+        public String description;
     }
 }
