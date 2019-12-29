@@ -1,6 +1,5 @@
 package com.titan.flickrapp.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -22,7 +21,6 @@ import com.titan.flickrapp.viewmodels.LoginViewModel;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -42,7 +40,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ButterKnife.bind(this);
         Timber.d("Init app");
 
         ((App) getApplication()).getAppComponent().doInjection(this);
@@ -96,8 +93,9 @@ public class LoginActivity extends BaseActivity {
 
 
     @OnClick(R.id.btn_login)
-    public void onButtonClick(View view) {
-
+    public void btn_login__onButtonClick(View view) {
         loginViewModel.loginUser(txt_input_user.getEditText().getText().toString());
     }
+
+
 }

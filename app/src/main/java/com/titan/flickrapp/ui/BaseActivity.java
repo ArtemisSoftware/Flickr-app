@@ -9,15 +9,17 @@ import android.widget.ProgressBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.titan.flickrapp.R;
+import com.titan.flickrapp.util.AppConfig;
+
+import butterknife.ButterKnife;
 
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressBar progress_bar;
 
     @Override
     public void setContentView(int layoutResID) {
-
 
         ConstraintLayout constraintLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
         FrameLayout frameLayout = constraintLayout.findViewById(R.id.activity_content);
@@ -25,10 +27,13 @@ public class BaseActivity extends AppCompatActivity {
 
         getLayoutInflater().inflate(layoutResID, frameLayout, true);
         super.setContentView(constraintLayout);
+        ButterKnife.bind(this);
+
     }
 
     public void showProgressBar(boolean visible) {
-
         progress_bar.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 }
