@@ -89,15 +89,19 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/transparent_card"
                     android:layout_marginTop="5dp">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <co.lujun.androidtagview.TagContainerLayout
+
+                        android:id="@+id/tc_tags"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:text="tags"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:layout_margin="5dp"/>
+                        android:layout_margin="0dp"
+                        android:padding="10dp"
+                        app:container_enable_drag="false"
+                        app:horizontal_interval="10dp"
+                        app:vertical_interval="10dp"
+                        app:tag_clickable="true"
+                        app:tag_theme="pure_teal"
+                        android:visibility="gone"/>
                 </FrameLayout>
 
             </LinearLayout>

@@ -9,6 +9,7 @@ import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.ui.BaseActivity;
 
 import butterknife.BindView;
+import co.lujun.androidtagview.TagContainerLayout;
 import timber.log.Timber;
 
 public class PictureActivity extends BaseActivity {
@@ -23,6 +24,8 @@ public class PictureActivity extends BaseActivity {
     @BindView(R.id.txt_date)
     TextView txt_date;
 
+    @BindView(R.id.tc_tags)
+    TagContainerLayout tc_tags;
 
 
     @Override
@@ -50,6 +53,7 @@ public class PictureActivity extends BaseActivity {
             txt_title.setText(picture.getTitle());
             txt_description.setText(picture.getDescription());
             txt_date.setText(picture.getDate());
+            tc_tags.setTags(picture.getTags());
 
         }
     }
