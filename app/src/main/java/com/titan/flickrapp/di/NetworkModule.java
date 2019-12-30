@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 @Module
-public class AppModule {
+public class NetworkModule {
 
 
     @Provides
