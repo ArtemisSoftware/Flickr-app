@@ -19,8 +19,8 @@ import timber.log.Timber;
 
 public class PictureActivity extends BaseActivity {
 
-    //@Inject
-    //RequestManager requestManager;
+    @Inject
+    RequestManager requestManager;
 
 
     @BindView(R.id.picture_image)
@@ -72,7 +72,7 @@ public class PictureActivity extends BaseActivity {
             txt_date.setText(picture.getDate());
             tc_tags.setTags(picture.getTags());
 
-            //requestManager.load(picture.getUrl()).into(picture_image);
+            requestManager.load(picture.getUrl()).into(picture_image);
 
         }
     }

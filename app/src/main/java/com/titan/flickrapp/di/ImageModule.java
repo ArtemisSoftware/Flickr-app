@@ -1,6 +1,7 @@
 package com.titan.flickrapp.di;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -16,6 +17,22 @@ import timber.log.Timber;
 @Module
 public class ImageModule {
 
+
+    private Application context;
+
+    public ImageModule(Application context) {
+        this.context = context;
+        Timber.d("AppModule constructed: " + context);
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext() {
+
+        Timber.d("Providing Context: " + context);
+        return context;
+    }
+
     @Singleton
     @Provides
     static RequestOptions provideRequestOptions(){
@@ -30,7 +47,7 @@ public class ImageModule {
 
     @Singleton
     @Provides
-    static RequestManager provideGlideInstance(Application application, RequestOptions requestOptions){
+    static RequestManager provideGlideInstance(Context application, RequestOptions requestOptions){
 
         RequestManager request = Glide.with(application).setDefaultRequestOptions(requestOptions);
 

@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Component(modules = {NetworkModule.class/*, ImageModule.class*/})
+@Component(modules = {/*AppModule.class,*/ NetworkModule.class, ImageModule.class})
 @Singleton
 public interface AppComponent {
 

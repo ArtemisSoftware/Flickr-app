@@ -17,6 +17,12 @@ public class PhotoResponse extends BaseResponse{
         @SerializedName("id")
         public String id;
 
+        @SerializedName("secret")
+        public String secret;
+
+        @SerializedName("server")
+        public String server;
+
         @SerializedName("title")
         public Title title;
 

@@ -23,7 +23,8 @@ public class Picture implements Parcelable {
         this.id = photo.photo.id;
         this.title = photo.photo.title.description;
         this.description = photo.photo.description.description;
-        this.url = photo.photo.urls.links.get(0).content;
+        this.url = "https://live.staticflickr.com/" + photo.photo.server + "/" + photo.photo.id + "_" + photo.photo.secret + ".jpg";
+
         this.date = photo.photo.dates.taken;
 
         this.tags = new ArrayList<>();
