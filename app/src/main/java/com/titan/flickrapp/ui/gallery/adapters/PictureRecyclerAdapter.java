@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 
@@ -21,10 +22,12 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private OnPictureListener onPictureListener;
 
+    private RequestManager requestManager;
 
-    public PictureRecyclerAdapter(OnPictureListener onPictureListener) {
+
+    public PictureRecyclerAdapter(OnPictureListener onPictureListener, RequestManager requestManager) {
         this.onPictureListener = onPictureListener;
-
+        this.requestManager = requestManager;
     }
 
     @NonNull
@@ -37,7 +40,7 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             default:{
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture_list_item, parent, false);
-                return new PictureViewHolder(view, this.onPictureListener);
+                return new PictureViewHolder(view, this.onPictureListener, this.requestManager);
             }
         }
     }

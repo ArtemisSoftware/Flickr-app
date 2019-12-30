@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.bumptech.glide.RequestManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.titan.flickrapp.App;
 import com.titan.flickrapp.R;
@@ -33,6 +34,9 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
     @Inject
     ViewModelFactory viewModelFactory;
+
+    @Inject
+    RequestManager requestManager;
 
     private GalleryViewModel galleryViewModel;
 
@@ -65,7 +69,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
     private void initRecyclerView(){
 
-        pictureRecyclerAdapter = new PictureRecyclerAdapter(this);
+        pictureRecyclerAdapter = new PictureRecyclerAdapter(this, requestManager);
         recyclerView.setAdapter(pictureRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
