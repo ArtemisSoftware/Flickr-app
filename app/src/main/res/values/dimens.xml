@@ -3,4 +3,5 @@
     <dimen name="headerTextSize">22sp</dimen>
     <dimen name="newsMoreTextSize">16sp</dimen>
     <dimen name="signup_text_margin_top">5dp</dimen>
+    <dimen name="recycler_loading_view_height">80dp</dimen>
 </resources>

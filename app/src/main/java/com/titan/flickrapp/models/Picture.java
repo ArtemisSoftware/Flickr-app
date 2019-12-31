@@ -18,6 +18,12 @@ public class Picture implements Parcelable {
     private String url;
     private String date;
 
+    private int type;
+
+    public Picture(int type) {
+        this.type = type;
+    }
+
     public Picture(PhotoResponse photo) {
 
         this.id = photo.photo.id;
@@ -43,6 +49,7 @@ public class Picture implements Parcelable {
         tags = in.createStringArrayList();
         url = in.readString();
         date = in.readString();
+        type = in.readInt();
     }
 
     @Override
@@ -53,6 +60,7 @@ public class Picture implements Parcelable {
         dest.writeStringList(tags);
         dest.writeString(url);
         dest.writeString(date);
+        dest.writeInt(type);
     }
 
     @Override
@@ -94,5 +102,9 @@ public class Picture implements Parcelable {
 
     public String getDate() {
         return date;
+    }
+
+    public int getType() {
+        return type;
     }
 }

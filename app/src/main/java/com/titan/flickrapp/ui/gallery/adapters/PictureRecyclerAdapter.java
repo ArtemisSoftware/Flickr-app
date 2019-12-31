@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
+import com.titan.flickrapp.LoadingViewHolder;
 import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int REGISTER_TYPE = 1;
+    public static final int LOADING_TYPE = 2;
 
     private List<Picture> results;
 
@@ -40,6 +42,11 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         switch (viewType){
 
+            case LOADING_TYPE:{
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_list_item, parent, false);
+                return new LoadingViewHolder(view);
+            }
+
             default:{
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture_list_item, parent, false);
                 return new PictureViewHolder(view, this.onPictureListener, this.requestManager);
@@ -54,13 +61,17 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if(itemViewType == REGISTER_TYPE) {
 
-            ((PictureViewHolder) holder).onBind(results.get(position));
+            ((PictureViewHolder) holder).onBind(this.results.get(position));
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return REGISTER_TYPE;
+
+        if(this.results.get(position).getType() == LOADING_TYPE){
+            return LOADING_TYPE;
+        }
+        else return REGISTER_TYPE;
     }
 
 
@@ -88,5 +99,43 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void setResults(List<Picture> results){
         this.results.addAll(results);
         notifyDataSetChanged();
+    }
+
+
+    public void displayLoading(){
+
+        if(this.results == null){
+            this.results = new ArrayList<>();
+        }
+        if(!isLoading()){
+
+            Picture picture = new Picture(LOADING_TYPE);
+            this.results.add(picture);
+            notifyDataSetChanged();
+        }
+    }
+
+
+    public void hideLoading(){
+        if(isLoading()){
+
+            if (this.results.get(this.results.size() - 1).getType() == LOADING_TYPE) {
+                this.results.remove(this.results.size() - 1);
+            }
+
+            notifyDataSetChanged();
+        }
+    }
+
+    private boolean isLoading(){
+
+        if(this.results != null){
+            if (this.results.size() > 0) {
+                if (this.results.get(this.results.size() - 1).getType() == LOADING_TYPE) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

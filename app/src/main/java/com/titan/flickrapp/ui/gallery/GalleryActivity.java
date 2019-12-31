@@ -115,7 +115,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
                     case LOADING:
 
                         if(galleryViewModel.getPageNumber() > 1){
-
+                            pictureRecyclerAdapter.displayLoading();
                         }
                         else {
                             showProgressBar(true);
@@ -124,6 +124,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
                     case SUCCESS:
 
+                        pictureRecyclerAdapter.hideLoading();
                         pictureRecyclerAdapter.setResults((List<Picture>) apiResponse.data);
                         showProgressBar(false);
                         break;
