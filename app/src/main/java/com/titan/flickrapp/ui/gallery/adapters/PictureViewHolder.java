@@ -37,12 +37,8 @@ public class PictureViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public void onBind(Picture picture){
 
-        // set the image for the future
-        requestManager
-                .load(picture.getUrl())
-                .into(picture_image);
+        requestManager.load(picture.getUrl()).into(picture_image);
         txt_title.setText(picture.getTitle());
-
     }
 
     @Override

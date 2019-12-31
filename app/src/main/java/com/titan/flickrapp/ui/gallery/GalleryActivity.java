@@ -1,5 +1,6 @@
 package com.titan.flickrapp.ui.gallery;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -10,7 +11,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.titan.flickrapp.App;
 import com.titan.flickrapp.R;
@@ -18,6 +22,7 @@ import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.ui.BaseActivity;
 import com.titan.flickrapp.ui.gallery.adapters.OnPictureListener;
 import com.titan.flickrapp.ui.gallery.adapters.PictureRecyclerAdapter;
+import com.titan.flickrapp.util.ApiConstants;
 import com.titan.flickrapp.util.ApiResponse;
 import com.titan.flickrapp.util.ViewModelFactory;
 import com.titan.flickrapp.viewmodels.GalleryViewModel;
@@ -72,6 +77,19 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
         pictureRecyclerAdapter = new PictureRecyclerAdapter(this, requestManager);
         recyclerView.setAdapter(pictureRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if(!recyclerView.canScrollVertically(1)){
+
+                    galleryViewModel.searchNextGallery(nsid);
+                }
+            }
+        });
     }
 
 
@@ -96,7 +114,12 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
                     case LOADING:
 
-                        showProgressBar(true);
+                        if(galleryViewModel.getPageNumber() > 1){
+
+                        }
+                        else {
+                            showProgressBar(true);
+                        }
                         break;
 
                     case SUCCESS:

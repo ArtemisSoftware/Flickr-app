@@ -28,6 +28,7 @@ public class GalleryViewModel extends ViewModel {
     private final CompositeDisposable disposables;
     private final MutableLiveData<ApiResponse> galleryLiveData;
     private int pageNumber;
+    private boolean isPerformingQuery;
 
     public GalleryViewModel(FlickrRepository repository) {
         this.repository = repository;
@@ -36,16 +37,26 @@ public class GalleryViewModel extends ViewModel {
         pageNumber = 1;
     }
 
+    public int getPageNumber() {
+        return pageNumber;
+    }
 
     public MutableLiveData<ApiResponse> observeGallery() {
         return galleryLiveData;
+    }
+
+    public void searchNextGallery(String nsid){
+        if(!isPerformingQuery){
+            pageNumber++;
+            searchGallery(nsid);
+        }
     }
 
 
     public void searchGallery(String nsid) {
 
         Timber.d("Searching user " + nsid + " page " + pageNumber + " list of pictures");
-
+        isPerformingQuery = true;
 
         repository.searchPhotoList(nsid, String.valueOf(pageNumber))
                 .map(new Function<PhotoListResponse, List<String>>() {
@@ -93,6 +104,7 @@ public class GalleryViewModel extends ViewModel {
                     @Override
                     public void onComplete() {
                         disposables.clear();
+                        isPerformingQuery = false;
                     }
                 });
 

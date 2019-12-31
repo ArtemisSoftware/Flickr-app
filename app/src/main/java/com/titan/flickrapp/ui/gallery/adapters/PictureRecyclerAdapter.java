@@ -11,6 +11,7 @@ import com.bumptech.glide.RequestManager;
 import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +29,7 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public PictureRecyclerAdapter(OnPictureListener onPictureListener, RequestManager requestManager) {
         this.onPictureListener = onPictureListener;
         this.requestManager = requestManager;
+        this.results = new ArrayList<>();
     }
 
     @NonNull
@@ -84,7 +86,7 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
     public void setResults(List<Picture> results){
-        this.results = results;
+        this.results.addAll(results);
         notifyDataSetChanged();
     }
 }
