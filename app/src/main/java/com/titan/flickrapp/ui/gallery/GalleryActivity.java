@@ -74,9 +74,12 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
     private void initRecyclerView(){
 
-        pictureRecyclerAdapter = new PictureRecyclerAdapter(this, requestManager);
+        ViewPreloadSizeProvider<String> viewPreloader = new ViewPreloadSizeProvider<>();
+
+        pictureRecyclerAdapter = new PictureRecyclerAdapter(this, requestManager, viewPreloader);
         recyclerView.setAdapter(pictureRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -131,7 +134,12 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
                     case ERROR:
 
-                        Toast.makeText(getApplicationContext(),"Error: " + apiResponse.message,Toast.LENGTH_SHORT).show();
+                        if(apiResponse.message.equals(GalleryViewModel.QUERY_EXHAUSTED)){
+                            pictureRecyclerAdapter.setQueryExhausted();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error: " + apiResponse.message, Toast.LENGTH_SHORT).show();
+                        }
                         showProgressBar(false);
                         break;
                 }

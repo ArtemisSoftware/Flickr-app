@@ -24,10 +24,12 @@ import timber.log.Timber;
 
 public class GalleryViewModel extends ViewModel {
 
+    public static final String QUERY_EXHAUSTED = "No more results";
+
     private FlickrRepository repository;
     private final CompositeDisposable disposables;
     private final MutableLiveData<ApiResponse> galleryLiveData;
-    private int pageNumber;
+    private int pageNumber, pages;
     private boolean isPerformingQuery;
 
     public GalleryViewModel(FlickrRepository repository) {
@@ -46,7 +48,14 @@ public class GalleryViewModel extends ViewModel {
     }
 
     public void searchNextGallery(String nsid){
-        if(!isPerformingQuery){
+
+        if(pageNumber > pages){
+
+            Timber.d("page limit reached pageNumber:" + pageNumber + " pages:" + pages);
+            galleryLiveData.setValue(ApiResponse.error(QUERY_EXHAUSTED));
+
+        }
+        else if(!isPerformingQuery){
             pageNumber++;
             searchGallery(nsid);
         }
@@ -65,6 +74,7 @@ public class GalleryViewModel extends ViewModel {
 
                         List<String> photoIds = new ArrayList<>();
 
+                        pages = response.photos.pages;
                         for (PhotoListResponse.Photo photo : response.photos.pictures) {
                             photoIds.add(photo.id);
                         }

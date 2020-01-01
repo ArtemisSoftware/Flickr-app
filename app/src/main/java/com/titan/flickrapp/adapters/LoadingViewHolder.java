@@ -1,4 +1,4 @@
-package com.titan.flickrapp;
+package com.titan.flickrapp.adapters;
 
 import android.view.View;
 
