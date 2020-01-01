@@ -15,6 +15,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.titan.flickrapp.adapters.LoadingViewHolder;
 import com.titan.flickrapp.R;
+import com.titan.flickrapp.adapters.SearchExhaustedViewHolder;
 import com.titan.flickrapp.models.Picture;
 
 import java.util.ArrayList;
@@ -53,6 +54,12 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         switch (viewType){
 
+            case EXHAUSTED_TYPE:{
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_exhausted_list_item, parent, false);
+                return new SearchExhaustedViewHolder(view);
+            }
+
+
             case LOADING_TYPE:{
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_list_item, parent, false);
                 return new LoadingViewHolder(view);
@@ -81,6 +88,9 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if(this.results.get(position).getType() == LOADING_TYPE){
             return LOADING_TYPE;
+        }
+        else if(this.results.get(position).getType() == EXHAUSTED_TYPE){
+            return EXHAUSTED_TYPE;
         }
         else return REGISTER_TYPE;
     }
