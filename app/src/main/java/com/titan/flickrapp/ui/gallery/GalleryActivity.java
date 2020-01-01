@@ -80,8 +80,6 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
         recyclerView.setAdapter(pictureRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {

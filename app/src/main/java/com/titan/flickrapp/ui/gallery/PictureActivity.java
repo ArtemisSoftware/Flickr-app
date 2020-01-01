@@ -2,7 +2,9 @@ package com.titan.flickrapp.ui.gallery;
 
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
@@ -14,6 +16,7 @@ import com.titan.flickrapp.ui.BaseActivity;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import co.lujun.androidtagview.TagContainerLayout;
 import timber.log.Timber;
 
@@ -38,9 +41,8 @@ public class PictureActivity extends BaseActivity {
     @BindView(R.id.tc_tags)
     TagContainerLayout tc_tags;
 
-
-
-
+    @BindView(R.id.lnr_lyt_picture_data)
+    LinearLayout lnr_lyt_picture_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,5 +77,21 @@ public class PictureActivity extends BaseActivity {
             requestManager.load(picture.getUrl()).into(picture_image);
 
         }
+    }
+
+    @OnClick(R.id.picture_image)
+    public void picture_image__onImageClick(View view) {
+
+        int visible = lnr_lyt_picture_data.getVisibility();
+
+        if(visible == View.VISIBLE){
+            visible= View.GONE;
+        }
+        else{
+            visible= View.VISIBLE;
+        }
+
+        lnr_lyt_picture_data.setVisibility(visible);
+
     }
 }

@@ -49,6 +49,16 @@
                         android:textSize="14sp"
                         android:layout_margin="5dp"/>
                 </FrameLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lnr_lyt_picture_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <!--Description Text-->
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -101,8 +111,10 @@
                         app:vertical_interval="10dp"
                         app:tag_clickable="true"
                         app:tag_theme="pure_teal"
-                        android:visibility="gone"/>
+                        android:visibility="visible"/>
                 </FrameLayout>
+
+            </LinearLayout>
 
             </LinearLayout>
 
