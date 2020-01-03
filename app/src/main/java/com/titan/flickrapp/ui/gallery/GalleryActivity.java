@@ -149,7 +149,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
     @Override
     public void onPictureClick(int position) {
         Intent intent = new Intent(this, PictureActivity.class);
-        intent.putExtra("picture", pictureRecyclerAdapter.getSelectedPicture(position));
+        intent.putExtra("picture", pictureRecyclerAdapter.getSelectedPicture(position).getId());
         startActivity(intent);
     }
 }

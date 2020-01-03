@@ -4,6 +4,7 @@ package com.titan.flickrapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.titan.flickrapp.requests.responses.PhotoListResponse;
 import com.titan.flickrapp.requests.responses.PhotoResponse;
 
 import java.util.ArrayList;
@@ -38,7 +39,14 @@ public class Picture implements Parcelable {
         for (PhotoResponse.Tag tag: photo.photo.tags.tag) {
             tags.add(tag.description);
         }
+    }
 
+
+    public Picture(PhotoListResponse.Photo photo) {
+
+        this.id = photo.id;
+        this.title = photo.title;
+        this.url = "https://live.staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
     }
 
 

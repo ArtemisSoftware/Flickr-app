@@ -6,12 +6,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.RequestManager;
 import com.titan.flickrapp.App;
 import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.ui.BaseActivity;
+import com.titan.flickrapp.util.ApiResponse;
+import com.titan.flickrapp.util.ViewModelFactory;
+import com.titan.flickrapp.viewmodels.GalleryViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,8 +32,13 @@ import timber.log.Timber;
 public class PictureActivity extends BaseActivity {
 
     @Inject
+    ViewModelFactory viewModelFactory;
+
+    @Inject
     RequestManager requestManager;
 
+
+    private GalleryViewModel galleryViewModel;
 
     @BindView(R.id.picture_image)
     ImageView picture_image;
@@ -53,15 +67,55 @@ public class PictureActivity extends BaseActivity {
 
         ((App) getApplication()).getAppComponent().doInjection(this);
 
+        galleryViewModel = ViewModelProviders.of(this, viewModelFactory).get(GalleryViewModel.class);
+
         showProgressBar(true);
+        subscribeObservers();
         getIncomingIntent();
         showProgressBar(false);
     }
 
+
+
+    private void subscribeObservers(){
+
+        galleryViewModel.observeGallery().observe(this, new Observer<ApiResponse>() {
+            @Override
+            public void onChanged(ApiResponse apiResponse) {
+
+                Timber.d("onChanged: " + apiResponse.toString());
+
+                switch (apiResponse.status){
+
+
+                    case LOADING:
+
+                        showProgressBar(true);
+                        break;
+
+                    case SUCCESS:
+
+                        setPictureProperties((Picture)apiResponse.data);
+                        showProgressBar(false);
+                        break;
+
+                    case ERROR:
+
+                        Toast.makeText(getApplicationContext(), "Error: " + apiResponse.message, Toast.LENGTH_SHORT).show();
+                        showProgressBar(false);
+                        break;
+                }
+            }
+        });
+    }
+
+
+
+
+
     private void getIncomingIntent(){
         if(getIntent().hasExtra("picture")){
-            Picture picture = getIntent().getParcelableExtra("picture");
-            setPictureProperties(picture);
+            galleryViewModel.searchPicture(getIntent().getStringExtra("picture"));
         }
     }
 

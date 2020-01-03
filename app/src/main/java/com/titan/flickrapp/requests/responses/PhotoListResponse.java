@@ -34,6 +34,8 @@ public class PhotoListResponse extends BaseResponse{
         public String server;
 
 
+        @SerializedName("title")
+        public String title;
     }
 
 }
