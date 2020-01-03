@@ -10,6 +10,8 @@ public class CheckApiResponse {
 
             case 1:
             case 100:
+            case 105:
+            case 116:
 
                 return ApiResponse.error(response.getMessage());
 
