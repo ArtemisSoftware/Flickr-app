@@ -15,4 +15,10 @@ public class ApiConstants {
     public static final String FORMAT = "json";
     public static final String NO_JSON_CALLBACK = "?";
     public static final String PER_PAGE = "7";
+
+    public static final int CONNECTION_TIMEOUT = 10; // 10 seconds
+    public static final int READ_TIMEOUT = 20; // 2 seconds
+    public static final int WRITE_TIMEOUT = 20; // 2 seconds
+
+    public static final int NETWORK_TIMEOUT = 3000;
 }

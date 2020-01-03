@@ -8,6 +8,8 @@ import com.titan.flickrapp.util.ApiConstants;
 import com.titan.flickrapp.util.UrlInterceptor;
 import com.titan.flickrapp.util.ViewModelFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -27,6 +29,17 @@ public class NetworkModule {
     OkHttpClient provideOkHttpClient() {
 
         OkHttpClient client = new OkHttpClient.Builder()
+
+                //establish connection to server
+                .connectTimeout(ApiConstants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+
+                //time between each byte read from the server
+                .readTimeout(ApiConstants.READ_TIMEOUT, TimeUnit.SECONDS)
+
+                //time between each byte sent to server
+                .writeTimeout(ApiConstants.WRITE_TIMEOUT, TimeUnit.SECONDS)
+
+                .retryOnConnectionFailure(false)
                 .addInterceptor(new UrlInterceptor())
                 .build();
 
