@@ -16,6 +16,7 @@ import com.titan.flickrapp.requests.responses.UserSearchResponse;
 import com.titan.flickrapp.ui.BaseActivity;
 import com.titan.flickrapp.ui.gallery.GalleryActivity;
 import com.titan.flickrapp.util.ApiResponse;
+import com.titan.flickrapp.util.AppConstants;
 import com.titan.flickrapp.util.ViewModelFactory;
 import com.titan.flickrapp.viewmodels.LoginViewModel;
 
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity {
     private void initGalley(UserSearchResponse data) {
 
         Intent intent = new Intent(this, GalleryActivity.class);
-        intent.putExtra("nsid", data.getUser().nsid);
+        intent.putExtra(AppConstants.NSID, data.getUser().nsid);
         startActivity(intent);
 
     }

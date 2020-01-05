@@ -25,6 +25,7 @@ import com.titan.flickrapp.ui.gallery.adapters.OnPictureListener;
 import com.titan.flickrapp.ui.gallery.adapters.PictureRecyclerAdapter;
 import com.titan.flickrapp.util.ApiConstants;
 import com.titan.flickrapp.util.ApiResponse;
+import com.titan.flickrapp.util.AppConstants;
 import com.titan.flickrapp.util.ViewModelFactory;
 import com.titan.flickrapp.viewmodels.GalleryViewModel;
 import com.titan.flickrapp.viewmodels.LoginViewModel;
@@ -55,6 +56,12 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
     private String nsid;
 
+    private final String GALLERY = "gallery";
+
+    private Parcelable listState;
+    private final String GALLERY_STATE = "galleryState";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +83,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
             galleryViewModel.searchGallery(nsid);
         }
         else{
-            pictureRecyclerAdapter.setResults(savedInstanceState.getParcelableArrayList("ww2"));
+            pictureRecyclerAdapter.setResults(savedInstanceState.getParcelableArrayList(GALLERY));
         }
     }
 
@@ -104,8 +111,8 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
 
 
     private void getIncomingIntent(){
-        if(getIntent().hasExtra("nsid")){
-            nsid = getIntent().getStringExtra("nsid");
+        if(getIntent().hasExtra(AppConstants.NSID)){
+            nsid = getIntent().getStringExtra(AppConstants.NSID);
             subscribeObservers();
         }
     }
@@ -158,18 +165,18 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
     @Override
     public void onPictureClick(int position) {
         Intent intent = new Intent(this, PictureActivity.class);
-        intent.putExtra("picture", pictureRecyclerAdapter.getSelectedPicture(position).getId());
+        intent.putExtra(AppConstants.PICTURE, pictureRecyclerAdapter.getSelectedPicture(position).getId());
         startActivity(intent);
     }
 
-    Parcelable listState;
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable("ww", listState);
-        outState.putParcelableArrayList("ww2", (ArrayList<Picture>) pictureRecyclerAdapter.getResults());
+        outState.putParcelable(GALLERY_STATE, listState);
+        outState.putParcelableArrayList(GALLERY, (ArrayList<Picture>) pictureRecyclerAdapter.getResults());
     }
 
     @Override
@@ -177,7 +184,7 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
         super.onRestoreInstanceState(state);
         // Retrieve list state and list/item positions
         if(state != null)
-            listState = state.getParcelable("ww");
+            listState = state.getParcelable(GALLERY_STATE);
     }
 
 

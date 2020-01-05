@@ -17,9 +17,11 @@ import com.titan.flickrapp.R;
 import com.titan.flickrapp.models.Picture;
 import com.titan.flickrapp.ui.BaseActivity;
 import com.titan.flickrapp.util.ApiResponse;
+import com.titan.flickrapp.util.AppConstants;
 import com.titan.flickrapp.util.ViewModelFactory;
 import com.titan.flickrapp.viewmodels.GalleryViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,6 +60,10 @@ public class PictureActivity extends BaseActivity {
     @BindView(R.id.lnr_lyt_picture_data)
     LinearLayout lnr_lyt_picture_data;
 
+    private Picture picture;
+    private final String PICTURE = "picture";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,16 @@ public class PictureActivity extends BaseActivity {
 
         showProgressBar(true);
         subscribeObservers();
-        getIncomingIntent();
+
+
+        if(savedInstanceState == null) {
+            getIncomingIntent();
+        }
+        else{
+            setPictureProperties(savedInstanceState.getParcelable(PICTURE));
+        }
+
+
         showProgressBar(false);
     }
 
@@ -114,8 +129,8 @@ public class PictureActivity extends BaseActivity {
 
 
     private void getIncomingIntent(){
-        if(getIntent().hasExtra("picture")){
-            galleryViewModel.searchPicture(getIntent().getStringExtra("picture"));
+        if(getIntent().hasExtra(AppConstants.PICTURE)){
+            galleryViewModel.searchPicture(getIntent().getStringExtra(AppConstants.PICTURE));
         }
     }
 
@@ -123,6 +138,7 @@ public class PictureActivity extends BaseActivity {
 
         if(picture != null){
 
+            this.picture = picture;
             txt_title.setText(picture.getTitle());
             txt_description.setText(picture.getDescription());
             txt_date.setText(picture.getDate());
@@ -148,4 +164,13 @@ public class PictureActivity extends BaseActivity {
         lnr_lyt_picture_data.setVisibility(visible);
 
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(PICTURE, this.picture);
+    }
+
 }
