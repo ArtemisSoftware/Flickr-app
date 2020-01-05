@@ -11,7 +11,7 @@ public abstract class BaseResponse {
 
     @SerializedName("code")
     @Expose()
-    private int code;
+    public int code;
 
     @SerializedName("message")
     @Expose()

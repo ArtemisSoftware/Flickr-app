@@ -169,7 +169,9 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyDataSetChanged();
     }
 
-
+    public List<Picture> getResults() {
+        return results;
+    }
 
     @NonNull
     @Override
@@ -187,4 +189,7 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RequestBuilder<?> getPreloadRequestBuilder(@NonNull String item) {
         return requestManager.load(item);
     }
+
+
+
 }

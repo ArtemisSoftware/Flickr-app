@@ -7,8 +7,12 @@ public class UserSearchResponse extends BaseResponse {
 
     @SerializedName("user")
     @Expose()
-    private UserResponse user;
+    public UserResponse user;
 
+
+    public UserSearchResponse(UserResponse user) {
+        this.user = user;
+    }
 
     public UserResponse getUser() {
         return user;
@@ -21,13 +25,19 @@ public class UserSearchResponse extends BaseResponse {
                 '}';
     }
 
-    public class UserResponse {
+    public static class UserResponse {
 
         @SerializedName("id")
         public String id;
 
         @SerializedName("nsid")
         public String nsid;
+
+
+        public UserResponse(String id, String nsid) {
+            this.id = id;
+            this.nsid = nsid;
+        }
     }
 
 

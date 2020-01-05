@@ -33,4 +33,34 @@ public class ApiResponse<T> {
         return new ApiResponse(ERROR, null, message);
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() != getClass() || obj.getClass() != ApiResponse.class){
+            return false;
+        }
+
+        ApiResponse<T> resource = (ApiResponse) obj;
+
+        if(resource.status != this.status){
+            return false;
+        }
+
+        if(this.data != null){
+            if(resource.data != this.data){
+                return false;
+            }
+        }
+
+        if(resource.message != null){
+            if(this.message == null){
+                return false;
+            }
+            if(!resource.message.equals(this.message)){
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

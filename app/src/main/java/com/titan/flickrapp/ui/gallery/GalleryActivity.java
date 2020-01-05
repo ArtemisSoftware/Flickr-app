@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +29,7 @@ import com.titan.flickrapp.util.ViewModelFactory;
 import com.titan.flickrapp.viewmodels.GalleryViewModel;
 import com.titan.flickrapp.viewmodels.LoginViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -68,7 +70,14 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
         initRecyclerView();
 
         getIncomingIntent();
-        galleryViewModel.searchGallery(nsid);
+
+
+        if(savedInstanceState == null) {
+            galleryViewModel.searchGallery(nsid);
+        }
+        else{
+            pictureRecyclerAdapter.setResults(savedInstanceState.getParcelableArrayList("ww2"));
+        }
     }
 
 
@@ -151,5 +160,32 @@ public class GalleryActivity extends BaseActivity implements OnPictureListener {
         Intent intent = new Intent(this, PictureActivity.class);
         intent.putExtra("picture", pictureRecyclerAdapter.getSelectedPicture(position).getId());
         startActivity(intent);
+    }
+
+    Parcelable listState;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable("ww", listState);
+        outState.putParcelableArrayList("ww2", (ArrayList<Picture>) pictureRecyclerAdapter.getResults());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+        // Retrieve list state and list/item positions
+        if(state != null)
+            listState = state.getParcelable("ww");
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
     }
 }
