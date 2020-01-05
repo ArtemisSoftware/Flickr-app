@@ -3,6 +3,7 @@ package com.titan.flickrapp.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -26,8 +27,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         progress_bar = constraintLayout.findViewById(R.id.progress_bar);
 
         getLayoutInflater().inflate(layoutResID, frameLayout, true);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
+
         super.setContentView(constraintLayout);
         ButterKnife.bind(this);
+
+
 
     }
 
