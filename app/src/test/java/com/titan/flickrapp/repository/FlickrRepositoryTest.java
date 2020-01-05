@@ -1,7 +1,6 @@
 package com.titan.flickrapp.repository;
 
 import com.titan.flickrapp.requests.FlickrApi;
-import com.titan.flickrapp.requests.responses.BaseResponse;
 import com.titan.flickrapp.requests.responses.CheckApiResponse;
 import com.titan.flickrapp.requests.responses.PhotoListResponse;
 import com.titan.flickrapp.requests.responses.UserSearchResponse;
@@ -22,8 +21,8 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
@@ -34,14 +33,14 @@ public class FlickrRepositoryTest {
 
 
     @Mock
-    FlickrApi githubUserRestService;
+    FlickrApi flickrApi;
 
-    private FlickrRepository userRepository;
+    private FlickrRepository flickrRepository;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userRepository = new FlickrRepository(githubUserRestService);
+        flickrRepository = new FlickrRepository(flickrApi);
     }
 
     //[Name of method under test]_[Conditions of test case]_[Expected Result]
@@ -52,12 +51,12 @@ public class FlickrRepositoryTest {
 
         //Arrange
 
-        Observable<UserSearchResponse> returnedData = Observable.just(githubUserList());
+        Observable<UserSearchResponse> returnedData = Observable.just(searchUserResponse());
 
-        when(githubUserRestService.searchUser(ApiConstants.USER_METHOD,USER)).thenReturn(returnedData);
+        when(flickrApi.searchUser(ApiConstants.USER_METHOD,USER)).thenReturn(returnedData);
 
         TestObserver<UserSearchResponse> subscriber = new TestObserver <>();
-        userRepository.searchUser(USER).subscribe(subscriber);
+        flickrRepository.searchUser(USER).subscribe(subscriber);
 
         //Assert
 
@@ -71,8 +70,10 @@ public class FlickrRepositoryTest {
 
         //Act
 
-        assertEquals(ApiResponse.success(githubUserList()), returnedValue);
-        verify(githubUserRestService).searchUser(ApiConstants.USER_METHOD, USER);
+        ApiResponse<UserSearchResponse> result = ApiResponse.success(searchUserResponse());
+        //assertEquals(result.status, returnedValue.status);
+        assertEquals(result, returnedValue);
+        verify(flickrApi).searchUser(ApiConstants.USER_METHOD, USER);
         
     }
 
@@ -81,28 +82,22 @@ public class FlickrRepositoryTest {
     void name() throws Exception {
 
 
-        //Given
-        when(githubUserRestService.searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, USER, "1")).thenReturn(get403ForbiddenError());
+        //Arrange
+        when(flickrApi.searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, USER, "1")).thenReturn(get403ForbiddenError());
 
-        //When
+        //Act
         TestObserver<PhotoListResponse> subscriber = new TestObserver <>();
-        userRepository.searchPhotoList(USER, "1").subscribe(subscriber);
+        flickrRepository.searchPhotoList(USER, "1").subscribe(subscriber);
 
-        //Then
+        //Assert
         subscriber.awaitTerminalEvent();
         subscriber.assertError(HttpException.class);
 
         List<List<Object>> onNextEvents = subscriber.getEvents();
         List<Object> users = onNextEvents.get(0);
 
-        verify(githubUserRestService).searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, anyString(), anyString());
+        verify(flickrApi).searchPhotoList(ApiConstants.PUBLIC_PHOTOS_METHOD, USER, "1");
 
-
-        //Arrange
-
-        //Act
-
-        //Assert
 
     }
 
@@ -113,7 +108,7 @@ public class FlickrRepositoryTest {
 
     }
 
-    private UserSearchResponse githubUserList() {
+    private UserSearchResponse searchUserResponse() {
 
         UserSearchResponse.UserResponse dd = new UserSearchResponse.UserResponse("49191827@N00", "49191827@N00");
         UserSearchResponse userResponse = new UserSearchResponse(dd);

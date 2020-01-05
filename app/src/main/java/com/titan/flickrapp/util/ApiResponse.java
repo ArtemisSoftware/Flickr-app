@@ -2,6 +2,10 @@ package com.titan.flickrapp.util;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.titan.flickrapp.requests.responses.BaseResponse;
+import com.titan.flickrapp.requests.responses.UserSearchResponse;
+
 import static com.titan.flickrapp.util.Status.*;
 
 public class ApiResponse<T> {
@@ -48,7 +52,17 @@ public class ApiResponse<T> {
 
         if(this.data != null){
             if(resource.data != this.data){
-                return false;
+
+                if(resource.data instanceof UserSearchResponse & this.data instanceof UserSearchResponse){
+
+                    if((((UserSearchResponse) resource.data).user.nsid.equals(((UserSearchResponse) this.data).user.nsid))== false){
+                        return false;
+                    }
+                }
+                else {
+
+                    return false;
+                }
             }
         }
 
