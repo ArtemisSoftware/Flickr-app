@@ -164,9 +164,11 @@ public class PictureRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         hideLoading();
 
-        Picture picture = new Picture(EXHAUSTED_TYPE);
-        this.results.add(picture);
-        notifyDataSetChanged();
+        if(this.results.get(this.results.size() - 1).getType() != EXHAUSTED_TYPE) {
+            Picture picture = new Picture(EXHAUSTED_TYPE);
+            this.results.add(picture);
+            notifyDataSetChanged();
+        }
     }
 
     public List<Picture> getResults() {

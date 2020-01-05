@@ -79,7 +79,7 @@ public class FlickrRepositoryTest {
 
 
     @Test
-    void name() throws Exception {
+    void searchPhotolist_ApiError() throws Exception {
 
 
         //Arrange
